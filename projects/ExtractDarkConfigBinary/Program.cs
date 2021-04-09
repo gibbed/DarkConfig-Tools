@@ -230,7 +230,10 @@ namespace ExtractDarkConfigBinary
                             case ItemType.Scalar:
                             {
                                 var value = ReadScalar(input, stringTable);
-                                emitter.Emit(new YamlEvents.Scalar(value));
+                                var scalarStyle = value.IndexOf('\n') >= 0
+                                    ? Yaml.ScalarStyle.Literal
+                                    : Yaml.ScalarStyle.Any;
+                                emitter.Emit(new YamlEvents.Scalar(default, default, value, scalarStyle, true, false));
                                 break;
                             }
                         }
